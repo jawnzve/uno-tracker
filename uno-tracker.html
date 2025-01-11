@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNO Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            align-items: center;    /* 垂直居中 */
+            height: 100vh; /* 占满视口高度 */
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 水平居中 */
+            justify-content: center; /* 垂直居中 */
+            width: 100%;
+            max-width: 620px; /* 限制最大宽度 */
+            box-sizing: border-box; /* 包括 padding 在宽度内 */
+        }
+
+        .title {
+            margin-bottom: 10px;
+            padding: 0;
+            text-align: center;
+            width: 100%; /* 确保与 grid 宽度一致 */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-rows: auto auto auto;
+            grid-template-columns: 1fr 1fr 1fr; /* 每列等宽 */
+            gap: 10px;
+            width: 100%; /* 宽度继承父容器 */
+            box-sizing: border-box; /* 包括 padding 在宽度内 */
+        }
+
+        .grid-container > .empty {
+            visibility: hidden; /* 保持占位但隐藏内容 */
+        }
+
+        .player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 200px; /* 限制玩家卡片的最大宽度 */
+            box-sizing: border-box; /* 包括 padding 在宽度内 */
+        }
+
+        .player.me {
+            border-color: #007bff;
+            background-color: #e9f5ff;
+        }
+
+        .color-buttons {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .color-buttons button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .color-buttons .red {
+            background-color: red;
+        }
+
+        .color-buttons .yellow {
+            background-color: yellow;
+            color: #000;
+        }
+
+        .color-buttons .blue {
+            background-color: blue;
+        }
+
+        .color-buttons .green {
+            background-color: green;
+        }
+
+        .color-buttons button.disabled {
+            background-color: #ccc !important;
+            color: #666 !important;
+            cursor: pointer; /* 显示小手 */
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                width: 50%; /* 宽屏下限制宽度为 50% */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">UNO Tracker</h1>
+        <div class="grid-container">
+            <div class="empty"></div>
+            <div class="player"> <!-- Player 2 -->
+                <div>Player 2</div>
+                <div class="color-buttons">
+                    <button class="red" onclick="toggleColor(this)">R</button>
+                    <button class="yellow" onclick="toggleColor(this)">Y</button>
+                    <button class="blue" onclick="toggleColor(this)">B</button>
+                    <button class="green" onclick="toggleColor(this)">G</button>
+                </div>
+            </div>
+            <div class="empty"></div>
+            <div class="player"> <!-- Player 1 -->
+                <div>Player 1</div>
+                <div class="color-buttons">
+                    <button class="red" onclick="toggleColor(this)">R</button>
+                    <button class="yellow" onclick="toggleColor(this)">Y</button>
+                    <button class="blue" onclick="toggleColor(this)">B</button>
+                    <button class="green" onclick="toggleColor(this)">G</button>
+                </div>
+            </div>
+            <div class="empty"></div>
+            <div class="player"> <!-- Player 3 -->
+                <div>Player 3</div>
+                <div class="color-buttons">
+                    <button class="red" onclick="toggleColor(this)">R</button>
+                    <button class="yellow" onclick="toggleColor(this)">Y</button>
+                    <button class="blue" onclick="toggleColor(this)">B</button>
+                    <button class="green" onclick="toggleColor(this)">G</button>
+                </div>
+            </div>
+            <div class="empty"></div>
+            <div class="player me"> <!-- You -->
+                <div>You</div>
+                <div class="color-buttons">
+                    <button class="red" onclick="toggleColor(this)">R</button>
+                    <button class="yellow" onclick="toggleColor(this)">Y</button>
+                    <button class="blue" onclick="toggleColor(this)">B</button>
+                    <button class="green" onclick="toggleColor(this)">G</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleColor(button) {
+            button.classList.toggle('disabled');
+        }
+    </script>
+</body>
+</html>
