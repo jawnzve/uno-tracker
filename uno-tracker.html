@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UNO Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+            color: #ddd;
+            overflow: hidden;
+        }
+
+        .titlebox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        .title {
+            margin: 0 10px;
+            text-align: center;
+            font-size: 2rem;
+            color: #f8f9fa;
+            opacity: 1;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .title.uno-tracker {
+            position: absolute;
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .title.new-game {
+            position: absolute;
+            transform: translateX(200px);
+            opacity: 0;
+        }
+
+        .title.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .title.hide {
+            transform: translateX(200px);
+            opacity: 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: calc(33.33% - 8px) calc(33.33% - 8px) calc(33.33% - 8px);
+            gap: 12px;
+            width: 100%;
+            height: auto;
+            max-height: 80%;
+        }
+
+        .grid-container > .empty {
+            visibility: hidden;
+        }
+
+        .player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background-color: #666;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .player.me {
+            border-color: #007bff;
+            background-color: #1e2a4e;
+        }
+
+        .color-buttons {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            gap: 4px;
+            margin-top: 4px;
+            width: 100%;
+        }
+
+        .color-buttons button {
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .color-buttons .red {
+            background-color: red;
+        }
+
+        .color-buttons .yellow {
+            background-color: yellow;
+            color: #000;
+        }
+
+        .color-buttons .blue {
+            background-color: blue;
+        }
+
+        .color-buttons .green {
+            background-color: green;
+        }
+
+        .color-buttons button.disabled {
+            background-color: #888 !important;
+            color: #ccc !important;
+            cursor: pointer;
+        }
+
+        .new-button {
+            margin-top: 40px;
+            padding: 10px 40px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 699px) {
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                max-width: 100%;
+                padding: 0 2%;
+                overflow: hidden;
+            }
+
+            .color-buttons button {
+                width: 100%;
+                height: 0;
+                padding-bottom: 60%;
+                padding-top: 40%;
+            }
+
+            .color-buttons {
+                gap: 4px;
+                grid-template-columns: 50% 50%;
+            }
+        }
+
+        @media (min-width: 700px) {
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                max-width: 800px;
+                box-sizing: border-box;
+            }
+
+            .color-buttons button {
+                width: 100%;
+                padding-bottom: 60%;
+                padding-top: 40%;
+            }
+
+            .color-buttons {
+                grid-template-columns: calc(25% - 3px) calc(25% - 3px) calc(25% - 3px) calc(25% - 3px);
+            }
+
+            .color-buttons button:hover {
+                opacity: 0.7;
+            }
+
+            .new-button:hover {
+                opacity: 0.7;
+            }
+        }
+
+        @media (min-width: 700px) {
+            .container {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="titlebox">
+            <h1 class="title uno-tracker show">UNO Tracker</h1>
+            <h1 class="title new-game">New Game</h1>
+        </div>
+        <div class="grid-container">
+            <div class="empty"></div>
+            <div class="player">
+                <div>Player 2</div>
+                <div class="color-buttons">
+                    <button class="red">R</button>
+                    <button class="yellow">Y</button>
+                    <button class="blue">B</button>
+                    <button class="green">G</button>
+                </div>
+            </div>
+            <div class="empty"></div>
+            <div class="player">
+                <div>Player 1</div>
+                <div class="color-buttons">
+                    <button class="red">R</button>
+                    <button class="yellow">Y</button>
+                    <button class="blue">B</button>
+                    <button class="green">G</button>
+                </div>
+            </div>
+            <div class="empty"></div>
+            <div class="player">
+                <div>Player 3</div>
+                <div class="color-buttons">
+                    <button class="red">R</button>
+                    <button class="yellow">Y</button>
+                    <button class="blue">B</button>
+                    <button class="green">G</button>
+                </div>
+            </div>
+            <div class="empty"></div>
+            <div class="player me">
+                <div>zzz</div>
+                <div class="color-buttons">
+                    <button class="red">R</button>
+                    <button class="yellow">Y</button>
+                    <button class="blue">B</button>
+                    <button class="green">G</button>
+                </div>
+            </div>
+        </div>
+        <button class="new-button" onclick="toggleTitles()">NEW</button>
+    </div>
+
+    <script>
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        document.querySelectorAll('.color-buttons button').forEach(button => {
+            if (isTouchDevice) {
+                button.addEventListener('touchstart', function (e) {
+                    e.preventDefault();
+                    this.style.opacity = 0.7;
+                });
+
+                button.addEventListener('touchend', function () {
+                    this.style.opacity = 1;
+                    toggleColor(this);
+                });
+            } else {
+                button.addEventListener('click', function () {
+                    toggleColor(this);
+                });
+            }
+
+            button.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+        });
+
+        function toggleColor(button) {
+            button.classList.toggle('disabled');
+        }
+
+        function resetButtons() {
+            document.querySelectorAll('.color-buttons button.disabled').forEach(button => {
+                button.classList.remove('disabled');
+            });
+        }
+
+        function toggleTitles() {
+            const unoTitle = document.querySelector('.title.uno-tracker');
+            const newTitle = document.querySelector('.title.new-game');
+            resetButtons();
+            if (unoTitle.classList.contains('show')) {
+                unoTitle.classList.remove('show');
+                unoTitle.classList.add('hide');
+                newTitle.classList.remove('hide');
+                newTitle.classList.add('show');
+            } else {
+                unoTitle.classList.remove('hide');
+                unoTitle.classList.add('show');
+                newTitle.classList.remove('show');
+                newTitle.classList.add('hide');
+            }
+        }
+    </script>
+</body>
+</html>
